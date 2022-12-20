@@ -1,6 +1,51 @@
 <template>
-  <main>Resumme</main>
+  <main>
+    <p>{{ selectedDate }}</p>
+    <h1>{{ amountCurrency }}</h1>
+    <div class="graphic">
+      <slot name="graphic"></slot>
+    </div>
+    <div class="action">
+      <slot name="action"></slot>
+    </div>
+  </main>
 </template>
+
+<script>
+const currencyFormater = new Intl.NumberFormat("es-CO", {
+  style: "currency",
+  currency: "COP",
+});
+export default {
+  props: {
+    label: {
+      type: String,
+    },
+    totalAmount: {
+      type: Number,
+    },
+    amount: {
+      type: Number,
+      default: null,
+    },
+    dateLabel: {
+      type: String,
+      default: null,
+    },
+  },
+  computed: {
+    amountVisual() {
+      return this.amount !== null ? this.amount : this.totalAmount;
+    },
+    selectedDate() {
+      return this.dateLabel !== null ? this.dateLabel : this.label;
+    },
+    amountCurrency() {
+      return currencyFormater.format(this.amountVisual);
+    },
+  },
+};
+</script>
 
 <style scoped>
 main {

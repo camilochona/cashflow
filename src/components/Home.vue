@@ -2,7 +2,15 @@
   <LayoutVue>
     <template #header> <HeaderVue></HeaderVue></template>
     <template #resume>
-      <Resume></Resume>
+      <Resume
+        :label="'Ahorro Total'"
+        :amount="amount"
+        :total-amount="1000000"
+        :dateLabel="dateLabel"
+      >
+        <template #graphic>Graphic</template>
+        <template #action>Action</template>
+      </Resume>
     </template>
     <template #movements>
       <Movements></Movements>
@@ -22,6 +30,12 @@ export default {
     HeaderVue,
     Resume,
     Movements,
+  },
+  data() {
+    return {
+      amount: null,
+      dateLabel: "22/10/2022",
+    };
   },
 };
 </script>
