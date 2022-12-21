@@ -8,7 +8,7 @@
         :total-amount="1000000"
         :dateLabel="dateLabel"
       >
-        <template #graphic>Graphic</template>
+        <template #graphic> <Graphic :amounts="amounts" /> </template>
         <template #action>
           <ActionVue />
         </template>
@@ -26,6 +26,7 @@ import HeaderVue from "./Header.vue";
 import Resume from "./Resume/index.vue";
 import Movements from "./Movements/index.vue";
 import ActionVue from "./Action.vue";
+import Graphic from "./Resume/Graphic.vue";
 
 export default {
   components: {
@@ -34,11 +35,12 @@ export default {
     Resume,
     Movements,
     ActionVue,
+    Graphic,
   },
   data() {
     return {
       amount: null,
-      dateLabel: "22/10/2022",
+      amounts: [100, 200, 500, 200, -400, -600, -300, 0, 300, 500],
       movements: [
         {
           id: 1,
