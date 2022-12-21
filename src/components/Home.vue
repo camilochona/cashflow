@@ -9,7 +9,9 @@
         :dateLabel="dateLabel"
       >
         <template #graphic>Graphic</template>
-        <template #action>Action</template>
+        <template #action>
+          <ActionVue />
+        </template>
       </Resume>
     </template>
     <template #movements>
@@ -23,6 +25,7 @@ import LayoutVue from "./Layout.vue";
 import HeaderVue from "./Header.vue";
 import Resume from "./Resume/index.vue";
 import Movements from "./Movements/index.vue";
+import ActionVue from "./Action.vue";
 
 export default {
   components: {
@@ -30,6 +33,7 @@ export default {
     HeaderVue,
     Resume,
     Movements,
+    ActionVue,
   },
   data() {
     return {
