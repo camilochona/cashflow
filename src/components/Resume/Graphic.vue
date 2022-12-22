@@ -17,7 +17,7 @@
       <polyline
         fill="none"
         stroke="#0689B0"
-        stroke-witdh="2"
+        stroke-width="2"
         :points="points"
       />
       <line
@@ -30,25 +30,29 @@
         y2="200"
       />
     </svg>
-    <p>Ultimos 30 días</p>
+    <p>Últimos 30 días</p>
   </div>
 </template>
 
 <script setup>
-import { defineProps, toRefs, computed, ref } from "vue";
+import { ref, toRefs, defineProps, computed, watch, defineEmits } from "vue";
+
 const props = defineProps({
   amounts: {
     type: Array,
     default: () => [],
   },
 });
+
 const { amounts } = toRefs(props);
 
 const amountToPixels = (amount) => {
   const min = Math.min(...amounts.value);
   const max = Math.max(...amounts.value);
+
   const amountAbs = amount + Math.abs(min);
   const minmax = Math.abs(max) + Math.abs(min);
+
   return 200 - ((amountAbs * 100) / minmax) * 2;
 };
 
@@ -62,12 +66,19 @@ const points = computed(() => {
     const x = (300 / total) * (i + 1);
     const y = amountToPixels(amount);
     return `${points} ${x},${y}`;
-  }, "0, 100");
+  }, `0, ${amountToPixels(amounts.value.length ? amounts.value[0] : [0])}`);
 });
 
 const showPointer = ref(false);
-
 const pointer = ref(0);
+
+const emit = defineEmits(["select"]);
+
+watch(pointer, (value) => {
+  const index = Math.ceil(value / (300 / amounts.value.length));
+  if (index < 0 || index > amounts.value.length) return;
+  emit("select", amounts.value[index - 1]);
+});
 
 const tap = ({ target, touches }) => {
   showPointer.value = true;
@@ -86,7 +97,6 @@ const untap = () => {
 svg {
   width: 100%;
 }
-
 p {
   text-align: center;
 }
